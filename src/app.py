@@ -38,26 +38,26 @@ if "image" in st.session_state:
     if st.button("Parse Bill"):
 
         attempts = 0  # Initialize the attempts counter
-    max_attempts = 3  # Define the maximum number of attempts
-    while attempts < max_attempts:
-        try:
-            with st.spinner("Parsing the bill..."):
-                parsed_bill = parse_bill(
-                    image_path=temporary_file_path, bill_type="iberdrola"
-                )
+        max_attempts = 3  # Define the maximum number of attempts
+        while attempts < max_attempts:
+            try:
+                with st.spinner("Parsing the bill..."):
+                    parsed_bill = parse_bill(
+                        image_path=temporary_file_path, bill_type="iberdrola"
+                    )
 
-            # If parse_bill succeeds, save the result and break the loop
-            st.session_state["parsed_bill"] = parsed_bill
-            break  # Exiting the loop after successful execution
+                # If parse_bill succeeds, save the result and break the loop
+                st.session_state["parsed_bill"] = parsed_bill
+                break  # Exiting the loop after successful execution
 
-        except Exception as e:
-            attempts += 1  # Increment attempt counter if an exception occurred
-            if attempts == max_attempts:
-                st.error(
-                    f"Failed to parse bill after {max_attempts} attempts. Please check the bill format or try again later."
-                )
-            else:
-                st.warning(f"Attempt {attempts} failed. Retrying...")
+            except Exception as e:
+                attempts += 1  # Increment attempt counter if an exception occurred
+                if attempts == max_attempts:
+                    st.error(
+                        f"Failed to parse bill after {max_attempts} attempts. Please check the bill format or try again later."
+                    )
+                else:
+                    st.warning(f"Attempt {attempts} failed. Retrying...")
 
 
 if "parsed_bill" in st.session_state:
