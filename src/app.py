@@ -8,6 +8,13 @@ from api.handlers.file_handler import (
 )
 from api.handlers.bill_parser_handler import parse_bill
 
+
+
+st.set_page_config(
+    page_title="Spaik Invoice Parser",
+    page_icon="🧊",
+)
+
 st.title("Upload an Iberdrola Invoice")
 
 uploaded_file = st.file_uploader(
