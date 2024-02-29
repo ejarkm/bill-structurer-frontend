@@ -12,7 +12,7 @@ st.title("Upload an Iberdrola Invoice")
 
 uploaded_file = st.file_uploader(
     "Upload an Iberdrola Invoice",
-    type=["pdf", "jpg", "png", "jpeg", "PNG", "JPG", "JPEG", "PDF"],
+    type=["pdf", "jpg", "png", "jpeg"],
 )
 
 if uploaded_file is not None:
@@ -37,14 +37,28 @@ if "image" in st.session_state:
 
     if st.button("Parse Bill"):
 
-        with st.spinner("Parsing the bill..."):
-            parsed_bill = parse_bill(image_path=temporary_file_path, bill_type="iberdrola")
-            if parsed_bill is None:
-                st.error("Failed to parse the bill, please try again.")
+        attempts = 0  # Initialize the attempts counter
+    max_attempts = 3  # Define the maximum number of attempts
+    while attempts < max_attempts:
+        try:
+            with st.spinner("Parsing the bill..."):
+                parsed_bill = parse_bill(
+                    image_path=temporary_file_path, bill_type="iberdrola"
+                )
+
+            # If parse_bill succeeds, save the result and break the loop
+            st.session_state["parsed_bill"] = parsed_bill
+            break  # Exiting the loop after successful execution
+
+        except Exception as e:
+            attempts += 1  # Increment attempt counter if an exception occurred
+            if attempts == max_attempts:
+                st.error(
+                    f"Failed to parse bill after {max_attempts} attempts. Please check the bill format or try again later."
+                )
             else:
-                st.success("Bill parsed successfully!")
-                os.remove(temporary_file_path)
-                st.session_state["parsed_bill"] = parsed_bill
+                st.warning(f"Attempt {attempts} failed. Retrying...")
+
 
 if "parsed_bill" in st.session_state:
     st.write(st.session_state["parsed_bill"])
