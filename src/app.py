@@ -1,14 +1,9 @@
 import streamlit as st
 from PIL import Image
-import os
 
-from api.handlers.file_handler import (
-    concatenate_images_vertically,
-    convert_pdf_to_images,
-)
 from api.handlers.bill_parser_handler import parse_bill
-
-
+from api.handlers.file_handler import (concatenate_images_vertically,
+                                       convert_pdf_to_images)
 
 st.set_page_config(
     page_title="Spaik Invoice Parser",
