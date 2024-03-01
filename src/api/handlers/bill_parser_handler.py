@@ -3,7 +3,7 @@ import requests
 
 
 def parse_bill(*, image_path, bill_type):
-    api_url = "https://bill-structurer-production.up.railway.app/parse-bill"
+    api_url = "https://spaik-bill-structurer-production.up.railway.app/parse-bill"
 
     # Define the headers
     headers = {"INVOICE_API_KEY": os.environ.get("INVOICE_API_KEY")}
